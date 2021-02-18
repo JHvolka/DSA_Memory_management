@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "BFMM.h"
+#include "src/BFMM.h"
 
 int main() {
 

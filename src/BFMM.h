@@ -5,8 +5,11 @@
 #include <assert.h>
 
 /** @file BFMM.h
- * TODO documentation
+ * \todo documentation
  */
+
+/// Global heap pointer
+static unsigned char *Heap = NULL;
 
 /**
  * The enumeration of node color
@@ -40,7 +43,9 @@ typedef struct HEAP_TREE {
     struct HEAP_NODE *left;   /**< smaller node pointer */
     struct HEAP_NODE *right;  /**< bigger node pointer */
     enum color_t color;       /**< node color (red or black) */
-    unsigned int size;        /**< size of available memory in block */
+    /** Size of available memory in block. Does include memory used for
+     * heapTree, but not for heapList */
+    unsigned int size;
 } heapTree_t;
 
 /**
@@ -55,12 +60,14 @@ typedef struct HEAP_NODE {
     heapTree_t tree; /**< A node of red-black tree for fast best fit search. */
 } heapNode_t;
 
-/// Global heap pointer
-static unsigned char *Heap = NULL;
-
-/// Global pointer to free heap blocks (BST)
-static heapNode_t *heap_root = NULL;
-
+/**
+ *
+ */
+typedef struct HEAP_HEAD{
+    /** Total size of memory block available, including all overheads */
+    unsigned int size;
+    heapNode_t * tree_root;    /**< Pointer to tree root */
+}heapHead_t;
 
 /**
  * Searches heap tree for free block of memory that is a best fit for given size
@@ -72,40 +79,68 @@ static heapNode_t *heap_root = NULL;
 heapNode_t *find_best_fit(unsigned int size);
 
 /**
- * Inserts a node into red-black tree of free memory blocks. Node size is taken as key.
+ * Inserts a node into red-black tree of free memory blocks. Node size is taken
+ * as key.
  * @param[in] node_insert
- * TODO finish documentation
+ * \todo finish documentation
  */
 void insert_node(heapNode_t * node_insert);
 void delete_node(heapNode_t * node_delete);
 
 //==============================================================================
 
+/// \todo check inline support in msvc and add preprocessor directives if needed or put inside define
+
 /**
- * TODO documentation
+ * Function returns heap header.
+ * @return heap header
+ */
+inline heapHead_t * get_head ();
+
+/**
+ * Function returns heap tree root.
+ * @return heap tree root
+ */
+inline heapNode_t * get_tree_root ();
+
+/**
+ * Function returns first heap list entry.
+ * @return  fisrt heap tree entry
+ */
+inline heapNode_t * get_list_root ();
+
+//==============================================================================
+
+/**
+ * \todo documentation
  * @param ptr
  * @param size
  */
 void memory_init(void *ptr, unsigned int size);
 
 /**
- * TODO documentation
+ * \todo documentation
  * @param[in] size
  * @return
  */
 void *memory_alloc(unsigned int size);
 
 /**
- * TODO documentation
+ * \todo documentation
  * @param valid_ptr
  * @return
  */
 int memory_free(void *valid_ptr);
 
 /**
- * TODO documentation
+ * \todo documentation
  * @param ptr
  * @return
  */
 int memory_check(void *ptr);
+
+// Debug only functions
+#if DEBUG == 1
+unsigned int get_largest_available_block_size();
+#endif
 
