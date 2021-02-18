@@ -1,0 +1,47 @@
+%! Author = Jakub Hvolka
+%! Date = 18/02/2021
+
+% Preamble
+\documentclass[11pt]{report}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{mGreen}{rgb}{0,0.6,0}
+\definecolor{mGray}{rgb}{0.5,0.5,0.5}
+\definecolor{mPurple}{rgb}{0.58,0.0,0.5}
+
+\lstdefinestyle{CStyle}{
+    basicstyle=\small,
+    commentstyle=\color{mGreen},
+    keywordstyle=\color{orange},
+    numberstyle=\tiny\color{mGray},
+    stringstyle=\color{mPurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4,
+    language=C
+}
+
+% Document
+\begin{document}
+    \begin{lstlisting}[style=CStyle,label={lst:test_block}]
+typedef struct HEAP_NODE {
+    /** Node of doubly linked list. Used to keep relative position of blocks */
+    heapList_t list;
+    heapTree_t tree; /**< A node of red-black tree for fast best fit search. */
+} heapNode_t;
+    \end{lstlisting}
+
+
+\end{document}
